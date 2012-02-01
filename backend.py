@@ -13,6 +13,7 @@ def write_to_db(data):
         return "The database has not been created yet. Please use method create_db()"
 
 def write_previous(number, line):
+    number = int(number)
     result = os.popen('sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" base.db').read()
     return result
 
@@ -28,7 +29,9 @@ def query_db(query):
     if "\n" in result:
         results_list = result.split("\n")
         results_list = results_list[:-1] #leave outside the ''
-    return results_list
+        return results_list
+    else:
+        return result
 
 def query_id(query):
     result = os.popen('grep "^' + str(query) + ';." base.db').read()
