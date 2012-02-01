@@ -12,6 +12,10 @@ def write_to_db(data):
     else:
         return "The database has not been created yet. Please use method create_db()"
 
+def write_previous(number, line):
+    result = os.popen('sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" base.db').read()
+    return result
+
 def create_db():
     result = os.popen("touch base.db").read()
     result = os.popen('echo "bashDB by Sebastian Alonso 2012" > base.db').read()
@@ -28,7 +32,9 @@ def query_db(query):
 
 def query_id(query):
     result = os.popen('grep "^' + str(query) + ';." base.db').read()
-    return result
+    if result != "":
+        return result
+    else: return None
 
 if __name__ == "__main__":
     for number in range(100):
