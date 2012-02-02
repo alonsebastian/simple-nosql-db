@@ -1,5 +1,18 @@
 import os
 
+def create_db(name):
+    result = os.popen("touch " + name).read()
+    result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
+    result = os.popen("touch ." + name + "_meta").read()
+    result = os.popen('echo "0" > .' + name + '_meta').read()
+    return True
+
+def reset_db(name):
+    temp = os.popen("rm " + name + " ; rm ." + name + "_meta")
+    return True
+
+
+
 def write_to_db(data):
     returned = os.popen('if [ -e ".basedb_meta" ]; then echo "ok"; fi').read()
     if returned == "ok\n":
@@ -8,7 +21,7 @@ def write_to_db(data):
         result = os.popen("echo " + str(number) + " > .basedb_meta").read()
         string = 'echo "' + str(number) + "; " + str(data) + '" >> base.db'
         result = os.popen(string).read()
-        return True
+        return number
     else:
         return "The database has not been created yet. Please use method create_db()"
 
@@ -17,11 +30,11 @@ def write_previous(number, line):
     result = os.popen('sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" base.db').read()
     return result
 
-def create_db():
-    result = os.popen("touch base.db").read()
-    result = os.popen('echo "bashDB by Sebastian Alonso 2012" > base.db').read()
-    result = os.popen("touch .basedb_meta").read()
-    result = os.popen('echo "0" > .basedb_meta').read()
+def create_db(name):
+    result = os.popen("touch " + name).read()
+    result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
+    result = os.popen("touch ." + name + "_meta").read()
+    result = os.popen('echo "0" > .' + name + '_meta').read()
     return True
 
 def query_db(query):
