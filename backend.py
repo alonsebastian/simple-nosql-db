@@ -1,9 +1,7 @@
 import os
 
 def create_stack(name):
-    returned = os.popen('if [ -e "' + name + '" ]; then echo "ok"; fi').read()
-    if returned != "ok\n":
-        result = os.popen("touch " + name).read()
+    if os.path.exists("." + name + "_meta"):
         result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
         result = os.popen("touch ." + name + "_meta").read()
         result = os.popen('echo "0" > .' + name + '_meta').read()
@@ -12,15 +10,13 @@ def create_stack(name):
         return "this stack already exists"
 
 def reset_stack(name):
-    result = os.popen("touch " + name).read()
     result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
     result = os.popen("touch ." + name + "_meta").read()
     result = os.popen('echo "0" > .' + name + '_meta').read()
     return True
 
 def write_to_db(name, data):
-    returned = os.popen('if [ -e ".' + name + '_meta" ]; then echo "ok"; fi').read()
-    if returned == "ok\n":
+    if os.path.exists("." + name + "_meta"):
         number = os.popen("cat ." + name + "_meta").read()
         number = int(number) + 1
         result = os.popen("echo " + str(number) + " > ." + name + "_meta").read()
@@ -32,7 +28,6 @@ def write_to_db(name, data):
 
 def write_previous(name, number, line):
     number = int(number)
-    print 'sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" ' + name
     result = os.popen('sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" ' + name).read()
     return result
 
