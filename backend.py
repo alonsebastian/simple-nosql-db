@@ -1,17 +1,22 @@
 import os
 
 def create_stack(name):
+    returned = os.popen('if [ -e "' + name + '" ]; then echo "ok"; fi').read()
+    if returned != "ok\n":
+        result = os.popen("touch " + name).read()
+        result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
+        result = os.popen("touch ." + name + "_meta").read()
+        result = os.popen('echo "0" > .' + name + '_meta').read()
+        return True
+    else:
+        return "this stack already exists"
+
+def reset_stack(name):
     result = os.popen("touch " + name).read()
     result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
     result = os.popen("touch ." + name + "_meta").read()
     result = os.popen('echo "0" > .' + name + '_meta').read()
     return True
-
-def reset_stack(name):
-    temp = os.popen("rm " + name + " ; rm ." + name + "_meta")
-    return True
-
-
 
 def write_to_db(name, data):
     returned = os.popen('if [ -e ".' + name + '_meta" ]; then echo "ok"; fi').read()
@@ -23,7 +28,7 @@ def write_to_db(name, data):
         result = os.popen(string).read()
         return number
     else:
-        return "The database has not been created yet. Please use method create_db()"
+        return "The database has not been created yet. Please use method create_stack()"
 
 def write_previous(name, number, line):
     number = int(number)

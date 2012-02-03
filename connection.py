@@ -1,5 +1,5 @@
 import backend
-from property_level import stack
+from stacks import stack
 import os
 
 class db_connection():
@@ -18,6 +18,10 @@ class db_connection():
         name = self.db_name + "_" + name
         self.stack = stack(name)
         return self.stack
+
+    def delete_stack(self, name):
+        os.remove(self.db_name + "_" + name)
+        os.remove("." + self.db_name + "_" + name + "_meta")
 
 def test():
     conn = db_connection()
