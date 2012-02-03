@@ -18,3 +18,9 @@ class db_connection():
         name = self.db_name + "_" + name
         self.stack = stack(name)
         return self.stack
+
+def test():
+    conn = db_connection()
+    conn.create_stack("family")
+    stack = conn.connect_stack("family")
+    return conn, stack

@@ -13,10 +13,12 @@ class stack():
             return id_
         else:
             register = backend.query_id(self.name, id_)
-            start = register.find(";")+2
-            register = register[start:-1] + "; " + property_ + ":" + value
-            backend.write_previous(self.name, id_, register)
-            return id_
+            if register is not None:
+                start = register.find(";")+2
+                register = register[start:-1] + "; " + property_ + ":" + value
+                backend.write_previous(self.name, id_, register)
+                return id_
+            else: return
        
     def property_query(self, property_, value):
         property_ = str(property_)

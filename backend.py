@@ -27,7 +27,8 @@ def write_to_db(name, data):
 
 def write_previous(name, number, line):
     number = int(number)
-    result = os.popen('sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '"' + name).read()
+    print 'sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" ' + name
+    result = os.popen('sed -i "' + str(number+1) + 'c' + str(number) + '; ' + line + '" ' + name).read()
     return result
 
 
