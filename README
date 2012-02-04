@@ -1,1 +1,1 @@
-bashdb is a python backend for a database that relies on bash tools such as cat, echo and grep. Funny enough I got the idea from this discussion http://stackoverflow.com/a/1110632/1177434 and decided it would be fun. Let's see where it goes!
+Simple-nosql-db is a python backend for a database that relies on unix tools such as cat, echo and grep. Funny enough I got the idea from this discussion http://stackoverflow.com/a/1110632/1177434 and decided it would be fun. Let's see where it goes!
