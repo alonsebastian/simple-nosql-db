@@ -1,7 +1,7 @@
 import os
 
 def create_stack(name):
-    if os.path.exists("." + name + "_meta"):
+    if not os.path.exists("." + name + "_meta"):
         result = os.popen('echo "bashDB by Sebastian Alonso 2012" > ' + name).read()
         result = os.popen("touch ." + name + "_meta").read()
         result = os.popen('echo "0" > .' + name + '_meta').read()
@@ -16,6 +16,7 @@ def reset_stack(name):
     return True
 
 def write_to_db(name, data):
+    print os.path.exists("." + name + "_meta")
     if os.path.exists("." + name + "_meta"):
         number = os.popen("cat ." + name + "_meta").read()
         number = int(number) + 1

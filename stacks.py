@@ -19,7 +19,11 @@ class stack():
                 backend.write_previous(self.name, id_, register)
                 return id_
             else: return
-       
+
+    def write_full_object(self, id_, register):
+        backend.write_previous(self.name, id_, register)
+        return
+
     def query_property(self, property_, value):
         property_ = str(property_)
         value = str(value)
@@ -30,7 +34,7 @@ class stack():
         id_ = str(id_)
         answer = backend.query_id(self.name, id_)
         if answer != None:
-            return answer[:-1]
+            return db_object(answer[:-1], self)
         else: return None
 
 
@@ -48,6 +52,67 @@ class stack():
                 #every item is in result
                 answer.append(result)
             return answer
+
+class db_object():
+    def __init__(self, record, stack):
+        self.stack = stack
+        self.record = record
+        print "record: " + self.record
+        self.property_list = self.record.split(";")
+        print "list: "
+        print self.property_list
+        self.id_ = self.property_list[0]
+        print "id: " + self.id_
+
+    def __getitem__(self, property_):
+        self.answer = False
+        for self.property_record in self.property_list:
+            if property_ in self.property_record:
+                self.answer = self.property_record.split(":")[1]
+                break
+        return self.answer
+
+    def __setitem__(self, property_, value):
+        for self.property_record in self.property_list:
+            if property_ in self.property_record:
+                self.temp = self.property_record.split(":")
+                print "aca va temp: "
+                print self.temp
+                self.temp[1] = value
+                self.record = ""
+                count = 0
+                for property__ in self.property_list:
+                    if property__ != self.property_record and count > 0:
+                        self.record += property__
+                    count += 1
+                print "registro: " + self.record
+                self.record += self.temp[0] + ":" + self.temp[1]
+                self.stack.write_full_object(self.id_, self.record)
+                self.property_list = self.record.split(";")
+                return
+                
+        self.stack.write_property(property_, value, self.id_)
+        self.property_list.append(property_ + ":" + value)
+        print "record: " + self.record
+        print "list: "
+        print self.property_list
+        return True
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
