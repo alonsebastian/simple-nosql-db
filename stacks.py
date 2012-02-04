@@ -10,17 +10,18 @@ class stack():
         if id_ == None:
             register = property_ + ":" + value
             id_ = backend.write_to_db(self.name, register)
-            return id_
+            return db_object(id_ + "; " + register, self)
         else:
             register = backend.query_id(self.name, id_)
             if register is not None:
                 start = register.find(";")+2
                 register = register[start:-1] + "; " + property_ + ":" + value
                 backend.write_previous(self.name, id_, register)
-                return id_
+                return db_object(id_ + "; " + register, self)
             else: return
 
     def write_full_object(self, id_, register):
+        #does not return db_object, cause it's mainly used by it
         backend.write_previous(self.name, id_, register)
         return
 
@@ -28,6 +29,8 @@ class stack():
         property_ = str(property_)
         value = str(value)
         results = backend.query_db(self.name, property_ + ":" + value)
+        for result in results:
+            result = db_object(result, self)
         return results
 
     def return_object(self, id_):
